@@ -1,0 +1,7 @@
+{
+  "_comment": "Plantillas de roles IAM usados por la gobernanza. [accountId] y [qualifier] se sustituyen en despliegue.",
+  "bootstrapAssumableRoleArnTemplate": {
+    "_comment": "Los developers solo podran asumir roles CDK bootstrap del qualifier del proyecto.",
+    "value": "arn:aws:iam::[accountId]:role/cdk-[qualifier]-*"
+  }
+}

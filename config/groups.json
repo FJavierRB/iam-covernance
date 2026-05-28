@@ -1,0 +1,15 @@
+{
+  "_comment": "Definicion de grupos IAM por proyecto. serviceToken se inserta en el patron de prefix.json como [servicio].",
+  "developers": {
+    "_comment": "Grupo para usuarios con permisos de despliegue a traves de roles bootstrap del qualifier.",
+    "serviceToken": "developers"
+  },
+  "viewers": {
+    "_comment": "Grupo para usuarios con permisos solo de lectura.",
+    "serviceToken": "viewers"
+  },
+  "architects": {
+    "_comment": "Grupo para arquitectos: asume roles bootstrap del qualifier + permisos de lectura transversal (CloudFormation, IAM, Cost Explorer, CloudWatch, SSM).",
+    "serviceToken": "architects"
+  }
+}

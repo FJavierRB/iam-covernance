@@ -1,0 +1,6 @@
+{
+  "pattern": "[cap7036]-[env]-[proyecto]-[servicio]",
+  "accountId": "cap7036",
+  "separator": "-",
+  "description": "Naming convention for all AWS resources. Replace placeholders with actual values during stack deployment."
+}

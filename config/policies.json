@@ -1,0 +1,131 @@
+{
+  "_comment": "Contenido funcional de politicas IAM. Puedes ajustar acciones sin tocar TypeScript.",
+  "executionPolicy": {
+    "_comment": "Permisos del CloudFormation execution role por proyecto (en funcion de allowedServices).",
+    "serviceActionsByService": {
+      "lambda": [
+        "lambda:*"
+      ],
+      "dynamodb": [
+        "dynamodb:*"
+      ],
+      "sqs": [
+        "sqs:*"
+      ],
+      "apigateway": [
+        "apigateway:*"
+      ],
+      "s3": [
+        "s3:*"
+      ],
+      "glue": [
+        "glue:*"
+      ],
+      "athena": [
+        "athena:*"
+      ],
+      "events": [
+        "events:*"
+      ],
+      "secretsmanager": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:CreateSecret",
+        "secretsmanager:DeleteSecret",
+        "secretsmanager:PutSecretValue",
+        "secretsmanager:TagResource"
+      ],
+      "logs": [
+        "logs:*"
+      ]
+    },
+    "additionalActions": [
+      "logs:*"
+    ],
+    "iamMinimalActions": [
+      "iam:CreateRole",
+      "iam:DeleteRole",
+      "iam:GetRole",
+      "iam:PassRole",
+      "iam:AttachRolePolicy",
+      "iam:DetachRolePolicy",
+      "iam:PutRolePolicy",
+      "iam:DeleteRolePolicy",
+      "iam:TagRole",
+      "iam:UntagRole"
+    ],
+    "tagEnforcementCreateActionsByService": {
+      "lambda": [
+        "lambda:CreateFunction"
+      ],
+      "dynamodb": [
+        "dynamodb:CreateTable"
+      ],
+      "sqs": [
+        "sqs:CreateQueue"
+      ],
+      "s3": [
+        "s3:CreateBucket"
+      ],
+      "glue": [
+        "glue:CreateJob",
+        "glue:CreateDatabase",
+        "glue:CreateTable"
+      ],
+      "secretsmanager": [
+        "secretsmanager:CreateSecret"
+      ]
+    }
+  },
+  "developersGroupPolicy": {
+    "_comment": "Permisos del grupo developers: solo puede asumir roles de despliegue CDK. Se deniega cualquier otra accion directa.",
+    "allowAssumeRoleActions": [
+      "sts:AssumeRole"
+    ],
+    "denyEverythingExceptActions": [
+      "sts:AssumeRole"
+    ]
+  },
+  "viewersGroupPolicy": {
+    "_comment": "Permisos de solo lectura para seguimiento de despliegues y estado.",
+    "readOnlyActions": [
+      "cloudformation:Describe*",
+      "cloudformation:List*",
+      "cloudformation:Get*"
+    ]
+  },
+  "architectsGroupPolicy": {
+    "_comment": "Permisos para arquitectos: despliegue via CDK bootstrap + lectura transversal de la cuenta para supervision y auditoria.",
+    "allowAssumeRoleActions": [
+      "sts:AssumeRole"
+    ],
+    "denyDirectServicesExceptActions": [
+      "sts:AssumeRole",
+      "cloudformation:Describe*",
+      "cloudformation:List*",
+      "cloudformation:Get*",
+      "cloudformation:ValidateTemplate",
+      "iam:Get*",
+      "iam:List*",
+      "ce:GetCostAndUsage",
+      "ce:GetCostForecast",
+      "ce:GetDimensionValues",
+      "ce:GetTags",
+      "ce:ListCostAllocationTags",
+      "logs:Describe*",
+      "logs:Get*",
+      "logs:List*",
+      "logs:Filter*",
+      "logs:StartQuery",
+      "logs:StopQuery",
+      "logs:GetQueryResults",
+      "cloudwatch:Describe*",
+      "cloudwatch:Get*",
+      "cloudwatch:List*",
+      "ssm:GetParameter",
+      "ssm:GetParameters",
+      "ssm:GetParametersByPath",
+      "ssm:DescribeParameters"
+    ]
+  }
+}

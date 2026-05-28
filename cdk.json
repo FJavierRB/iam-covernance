@@ -1,0 +1,12 @@
+{
+  "app": "npx ts-node --prefer-ts-exts bin/app.ts",
+  "context": {
+    "projectsFile": "config/projects.json",
+    "prefixFile": "config/prefix.json",
+    "tagsFile": "config/tags.json",
+    "groupsFile": "config/groups.json",
+    "rolesFile": "config/roles.json",
+    "policyNamesFile": "config/policy-names.json",
+    "policiesFile": "config/policies.json"
+  }
+}

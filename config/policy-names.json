@@ -1,0 +1,11 @@
+{
+  "_comment": "Nombres de politicas gestionadas. Se construyen con prefix.json usando el serviceToken.",
+  "cloudFormationExecution": {
+    "_comment": "Managed policy para CloudFormation execution role en cada qualifier.",
+    "serviceToken": "cfn-exec"
+  },
+  "architectsInline": {
+    "_comment": "Token usado para construir el nombre del grupo architects en el patron de prefix.json.",
+    "serviceToken": "architects"
+  }
+}

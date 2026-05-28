@@ -1,0 +1,24 @@
+{
+  "projects": [
+    {
+      "id": "poc-redes_sociales-dgt",
+      "qualifier": "dgtdev",
+      "allowedServices": [
+        "lambda",
+        "s3",
+        "sqs",
+        "glue",
+        "athena",
+        "events",
+        "secretsmanager",
+        "logs"
+      ],
+      "requiredTagKeys": ["owner", "autor_infra", "proyecto", "cliente", "cost_center", "entorno"],
+      "users": {
+        "architects": [
+          "francisco-javier.rincon-borobia@capgemini.com"
+        ]
+      }
+    }
+  ]
+}

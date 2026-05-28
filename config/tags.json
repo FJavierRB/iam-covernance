@@ -1,0 +1,11 @@
+{
+  "requiredTagKeys": [
+    "owner",
+    "autor_infra",
+    "proyecto",
+    "cliente",
+    "cost_center",
+    "entorno"
+  ],
+  "defaultTags": {}
+}
