@@ -6,11 +6,9 @@
       "allowedServices": [
         "lambda",
         "s3",
-        "sqs",
         "glue",
         "athena",
         "events",
-        "secretsmanager",
         "logs"
       ],
       "requiredTagKeys": ["owner", "autor_infra", "proyecto", "cliente", "cost_center", "entorno"],
