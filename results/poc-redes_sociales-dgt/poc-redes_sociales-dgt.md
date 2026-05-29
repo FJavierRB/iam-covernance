@@ -12,11 +12,9 @@
 ## Servicios permitidos
 - lambda
 - s3
-- sqs
 - glue
 - athena
 - events
-- secretsmanager
 - logs
 
 ## Tags obligatorios
