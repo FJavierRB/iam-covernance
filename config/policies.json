@@ -73,9 +73,7 @@
         "s3:CreateBucket"
       ],
       "glue": [
-        "glue:CreateJob",
-        "glue:CreateDatabase",
-        "glue:CreateTable"
+        "glue:CreateJob"
       ],
       "secretsmanager": [
         "secretsmanager:CreateSecret"
@@ -100,23 +98,34 @@
     ]
   },
   "architectsGroupPolicy": {
-    "_comment": "Permisos para arquitectos: despliegue via CDK bootstrap + lectura transversal de la cuenta para supervision y auditoria.",
+    "_comment": "Permisos para arquitectos: despliegue via CDK bootstrap + acceso operativo amplio (tipo power-user) para soporte y troubleshooting.",
     "allowAssumeRoleActions": [
       "sts:AssumeRole"
     ],
     "denyDirectServicesExceptActions": [
       "sts:AssumeRole",
-      "cloudformation:Describe*",
-      "cloudformation:List*",
-      "cloudformation:Get*",
+      "cloudformation:*",
       "cloudformation:ValidateTemplate",
       "iam:Get*",
       "iam:List*",
+      "iam:PassRole",
       "ce:GetCostAndUsage",
       "ce:GetCostForecast",
       "ce:GetDimensionValues",
       "ce:GetTags",
       "ce:ListCostAllocationTags",
+      "lambda:*",
+      "s3:*",
+      "glue:*",
+      "athena:*",
+      "events:*",
+      "logs:*",
+      "cloudwatch:*",
+      "dynamodb:*",
+      "sqs:*",
+      "secretsmanager:*",
+      "apigateway:*",
+      "ssm:*",
       "logs:Describe*",
       "logs:Get*",
       "logs:List*",
