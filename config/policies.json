@@ -40,7 +40,11 @@
       ]
     },
     "additionalActions": [
-      "logs:*"
+      "logs:*",
+      "ssm:GetParameter",
+      "ssm:GetParameters",
+      "ssm:GetParametersByPath",
+      "ssm:DescribeParameters"
     ],
     "iamMinimalActions": [
       "iam:CreateRole",

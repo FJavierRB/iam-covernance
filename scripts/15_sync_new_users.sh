@@ -54,46 +54,47 @@ remove_user_from_group() {
   fi
 }
 
+array_contains() {
+  local needle="$1"; shift
+  local item
+  for item in "$@"; do
+    [[ "$item" == "$needle" ]] && return 0
+  done
+  return 1
+}
+
 while IFS=$'\t' read -r USER_EMAIL GROUPS_CSV; do
   [[ -z "$USER_EMAIL" ]] && continue
 
-  # Parse expected groups
+  # Parse expected groups into indexed array (compatible con bash 3.2)
   IFS=',' read -r -a EXPECTED_GROUPS <<< "$GROUPS_CSV"
-  declare -A expected_set
-  for group in "${EXPECTED_GROUPS[@]}"; do
-    [[ -z "$group" ]] && continue
-    expected_set["$group"]=1
-  done
 
   # Check if user exists
   if aws iam get-user --user-name "$USER_EMAIL" --profile "$PROFILE" >/dev/null 2>&1; then
     echo "UPDATE user=$USER_EMAIL (usuario existente, actualizando membresías)"
-    
-    # Get current groups
-    readarray -t current_groups < <(get_user_current_groups "$USER_EMAIL")
-    declare -A current_set
-    for group in "${current_groups[@]}"; do
-      [[ -z "$group" ]] && continue
-      current_set["$group"]=1
-    done
 
-    # Add user to new groups
+    # Get current groups into indexed array
+    current_groups=()
+    while IFS= read -r g; do
+      [[ -n "$g" ]] && current_groups+=("$g")
+    done < <(get_user_current_groups "$USER_EMAIL")
+
+    # Add user to new groups not yet assigned
     for group in "${EXPECTED_GROUPS[@]}"; do
       [[ -z "$group" ]] && continue
-      if [[ -z "${current_set[$group]:-}" ]]; then
+      if ! array_contains "$group" "${current_groups[@]:-}"; then
         add_user_to_group "$USER_EMAIL" "$group"
       fi
     done
 
     # Remove user from groups no longer needed
-    for group in "${current_groups[@]}"; do
+    for group in "${current_groups[@]:-}"; do
       [[ -z "$group" ]] && continue
-      if [[ -z "${expected_set[$group]:-}" ]]; then
+      if ! array_contains "$group" "${EXPECTED_GROUPS[@]:-}"; then
         remove_user_from_group "$USER_EMAIL" "$group"
       fi
     done
 
-    unset expected_set current_set
   else
     # Create new user
     aws iam create-user --user-name "$USER_EMAIL" --profile "$PROFILE" >/dev/null
@@ -104,8 +105,6 @@ while IFS=$'\t' read -r USER_EMAIL GROUPS_CSV; do
       [[ -z "$GROUP_NAME" ]] && continue
       add_user_to_group "$USER_EMAIL" "$GROUP_NAME"
     done
-
-    unset expected_set
   fi
 done < <(list_user_group_plan)
 

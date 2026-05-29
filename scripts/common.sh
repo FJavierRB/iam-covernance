@@ -8,6 +8,8 @@ require_cmd() {
   }
 }
 
+require_cmd jq
+
 repo_root() {
   git rev-parse --show-toplevel 2>/dev/null
 }
@@ -21,12 +23,21 @@ ensure_repo_root() {
   fi
 }
 
+config_file_path() {
+  echo "$(repo_root)/config/config.json"
+}
+
+config_value() {
+  local key="$1"
+  jq -r ".${key}" "$(config_file_path)"
+}
+
 default_profile() {
-  echo "${AWS_PROFILE:-cap7036}"
+  config_value "profile"
 }
 
 default_region() {
-  echo "${AWS_REGION:-eu-west-1}"
+  config_value "region"
 }
 
 account_id() {

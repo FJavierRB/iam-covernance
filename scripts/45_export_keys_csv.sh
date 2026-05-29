@@ -11,7 +11,7 @@ require_cmd git
 
 ensure_repo_root
 
-PROFILE="${AWS_PROFILE:-cap7036}"
+PROFILE="$(default_profile)"
 
 ROOT="$(repo_root)"
 OUT_DIR="$ROOT/out"
