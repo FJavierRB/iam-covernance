@@ -37,6 +37,9 @@
       ],
       "logs": [
         "logs:*"
+      ],
+      "quicksight": [
+        "quicksight:*"
       ]
     },
     "additionalActions": [
@@ -125,6 +128,7 @@
       "sqs:*",
       "secretsmanager:*",
       "apigateway:*",
+      "quicksight:*",
       "ssm:*",
       "logs:Describe*",
       "logs:Get*",

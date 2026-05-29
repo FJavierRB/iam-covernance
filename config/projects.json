@@ -9,7 +9,8 @@
         "glue",
         "athena",
         "events",
-        "logs"
+        "logs",
+        "quicksight"
       ],
       "requiredTagKeys": ["owner", "autor_infra", "proyecto", "cliente", "cost_center", "entorno"],
       "users": {
