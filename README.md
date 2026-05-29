@@ -121,11 +121,19 @@ Define el token de servicio para el nombre de la managed policy de ejecucion.
 ### policies.json
 
 Define el contenido funcional de las politicas:
-- acciones por servicio permitido
+- acciones por servicio permitido (ej: "quicksight", "lambda", "dynamodb")
 - acciones IAM minimas
 - acciones de enforcement de tags
 - acciones de developers
 - acciones de viewers
+
+**Nota sobre servicios nuevos**: Al añadir un nuevo servicio a `allowedServices` de un proyecto, necesitas:
+1. Añadirlo a `policies.json` en la sección `serviceActionsByService` (ej: `"quicksight": ["quicksight:*"]`)
+2. Añadirlo a `policies.json` en `architectsGroupPolicy.denyDirectServicesExceptActions` si los architects deben tener acceso
+3. Desplegar el stack de governance
+4. Todos los usuarios del proyecto obtendran automaticamente esos permisos en su rol de CDK execution
+
+Ejemplo: DGT habilitó QuickSight para auto-crear dashboards via Lambda CDK custom resources.
 
 ### roles.json
 
