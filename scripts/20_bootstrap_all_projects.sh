@@ -45,8 +45,11 @@ while IFS=$'\t' read -r PROJECT_ID QUALIFIER PROJECT_ENV POLICY_NAME; do
     continue
   fi
 
-  echo "BOOTSTRAP project=${PROJECT_ID} qualifier=${QUALIFIER} env=${PROJECT_ENV} region=${REGION} policy=${POLICY_NAME}"
+  TOOLKIT_STACK_NAME="${PROJECT_ID}-cdk-toolkit"
+
+  echo "BOOTSTRAP project=${PROJECT_ID} qualifier=${QUALIFIER} env=${PROJECT_ENV} region=${REGION} policy=${POLICY_NAME} toolkit=${TOOLKIT_STACK_NAME}"
   npx cdk bootstrap "aws://${ACCOUNT_ID}/${REGION}" \
+    --toolkit-stack-name "$TOOLKIT_STACK_NAME" \
     --qualifier "$QUALIFIER" \
     --cloudformation-execution-policies "$POLICY_ARN" \
     --profile "$PROFILE"
