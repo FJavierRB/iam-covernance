@@ -3,7 +3,7 @@
 <!-- Archivo generado por scripts/50_generate_results.sh -->
 <!-- Uso: referencia operativa para administracion y usuarios del proyecto -->
 
-- Proyecto: poc-redes_sociales-dgt
+- Proyecto: poc-redes-sociales-dgt
 - Account ID: 887977137036
 - AWS Profile admin: cap7036
 - Qualifier: dgtdev
@@ -19,6 +19,7 @@
 - apigateway
 - quicksight
 - bedrock
+- states
 
 ## Tags obligatorios
 - owner

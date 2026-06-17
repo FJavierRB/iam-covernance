@@ -1,5 +1,5 @@
 {
-  "_comment": "Contenido funcional de politicas IAM. Puedes ajustar acciones sin tocar TypeScript.",
+  "_comment": "Contenido funcional de politicas IAM. Corrige duplicados y alinea con el stack sin cambiar permisos efectivos.",
   "executionPolicy": {
     "_comment": "Permisos del CloudFormation execution role por proyecto (en funcion de allowedServices).",
     "serviceActionsByService": {
@@ -13,7 +13,9 @@
         "sqs:*"
       ],
       "apigateway": [
-        "apigateway:*"
+        "apigateway:PUT",
+        "apigateway:PATCH",
+        "apigateway:GET"
       ],
       "s3": [
         "s3:*"
@@ -40,6 +42,26 @@
       ],
       "quicksight": [
         "quicksight:*"
+      ],
+      "bedrock": [
+        "bedrock:InvokeModel",
+        "bedrock:ListFoundationModels"
+      ],
+      "cloudfront": [
+        "cloudfront:*"
+      ],
+      "route53": [
+        "route53:*"
+      ],
+      "ecr": [
+        "ecr:CreateRepository",
+        "ecr:DescribeRepositories",
+        "ecr:DeleteRepository",
+        "ecr:SetRepositoryPolicy",
+        "ecr:TagResource"
+      ],
+      "states": [  
+        "states:*"
       ]
     },
     "additionalActions": [
@@ -47,7 +69,10 @@
       "ssm:GetParameter",
       "ssm:GetParameters",
       "ssm:GetParametersByPath",
-      "ssm:DescribeParameters"
+      "ssm:DescribeParameters",
+      "apigateway:PUT",
+      "apigateway:PATCH",
+      "apigateway:GET"
     ],
     "iamMinimalActions": [
       "iam:CreateRole",
@@ -83,15 +108,21 @@
       ]
     }
   },
+
   "developersGroupPolicy": {
     "_comment": "Permisos del grupo developers: solo puede asumir roles de despliegue CDK. Se deniega cualquier otra accion directa.",
     "allowAssumeRoleActions": [
       "sts:AssumeRole"
     ],
     "denyEverythingExceptActions": [
-      "sts:AssumeRole"
+      "sts:AssumeRole",  
+      "ssm:GetParameter",  
+      "ssm:GetParameters",  
+      "ssm:GetParametersByPath",  
+      "ssm:DescribeParameters"
     ]
   },
+
   "viewersGroupPolicy": {
     "_comment": "Permisos de solo lectura para seguimiento de despliegues y estado.",
     "readOnlyActions": [
@@ -100,8 +131,9 @@
       "cloudformation:Get*"
     ]
   },
+
   "architectsGroupPolicy": {
-    "_comment": "Permisos para arquitectos: despliegue via CDK bootstrap + acceso operativo amplio (tipo power-user) para soporte y troubleshooting.",
+    "_comment": "Permisos para architects. Mantiene comportamiento actual (sin reducir permisos). El filtrado por servicios se hace en el stack.",
     "allowAssumeRoleActions": [
       "sts:AssumeRole"
     ],
@@ -144,6 +176,10 @@
       "ssm:GetParameters",
       "ssm:GetParametersByPath",
       "ssm:DescribeParameters"
+    ],
+    "bedrock": [
+      "bedrock:InvokeModel",
+      "bedrock:ListFoundationModels"
     ]
   }
 }

@@ -3,9 +3,9 @@
 <!-- Archivo generado por scripts/50_generate_results.sh -->
 <!-- Uso: entregar a usuarios de este proyecto como guia operativa -->
 
-Proyecto: poc-redes_sociales-dgt
+Proyecto: poc-redes-sociales-dgt-front
 Account ID: 887977137036
-Qualifier: dgtdev
+Qualifier: dgtdevspa
 
 ## Reglas operativas
 - No usar consola para cambios de infraestructura.
@@ -15,7 +15,7 @@ Qualifier: dgtdev
 
 ## Configuracion local recomendada
 1. Configurar credenciales base en ~/.aws/credentials si aplica.
-2. Configurar el acceso al role documentado por el sistema: arn:aws:iam::887977137036:role/cdk-dgtdev-cfn-exec.
+2. Configurar el acceso al role documentado por el sistema: arn:aws:iam::887977137036:role/cdk-dgtdevspa-cfn-exec.
 3. Verificar la sesion con aws sts get-caller-identity.
 
 ## Comandos base
@@ -32,3 +32,4 @@ npx cdk deploy
 - cliente
 - cost_center
 - entorno
+- ecr

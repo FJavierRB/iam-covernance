@@ -3,7 +3,7 @@
 <!-- Archivo generado por scripts/50_generate_results.sh -->
 <!-- Uso: entregar a usuarios de este proyecto como guia operativa -->
 
-Proyecto: poc-redes_sociales-dgt
+Proyecto: poc-redes-sociales-dgt
 Account ID: 887977137036
 Qualifier: dgtdev
 

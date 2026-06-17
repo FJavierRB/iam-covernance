@@ -1,8 +1,9 @@
 {
   "projects": [
     {
-      "id": "poc-redes_sociales-dgt",
+      "id": "poc-redes-sociales-dgt",
       "qualifier": "dgtdev",
+      "logicalIdSeed": "dgtdev",
       "allowedServices": [
         "lambda",
         "s3",
@@ -10,12 +11,51 @@
         "athena",
         "events",
         "logs",
-        "quicksight"
+        "apigateway",
+        "quicksight",
+        "bedrock",
+        "states"
       ],
-      "requiredTagKeys": ["owner", "autor_infra", "proyecto", "cliente", "cost_center", "entorno"],
+      "requiredTagKeys": [
+        "owner",
+        "autor_infra",
+        "proyecto",
+        "cliente",
+        "cost_center",
+        "entorno"
+      ],
       "users": {
         "architects": [
           "francisco-javier.rincon-borobia@capgemini.com"
+        ]
+      }
+    },
+    {
+      "id": "poc-redes-sociales-dgt-front",
+      "qualifier": "dgtdevspa",
+      "logicalIdSeed": "dgtdevfront",
+      "allowedServices": [
+        "cloudfront",
+        "s3",
+        "lambda",
+        "apigateway",
+        "logs"
+      ],
+      "requiredTagKeys": [
+        "owner",
+        "autor_infra",
+        "proyecto",
+        "cliente",
+        "cost_center",
+        "entorno",
+        "ecr"
+      ],
+      "users": {
+        "architects": [
+          "francisco-javier.rincon-borobia@capgemini.com"
+        ],    
+        "developers": [      
+          "carlos.jorge-chaves@capgemini.com"    
         ]
       }
     }
