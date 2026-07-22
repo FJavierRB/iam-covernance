@@ -58,6 +58,64 @@
           "carlos.jorge-chaves@capgemini.com"    
         ]
       }
+    },
+    {
+      "id": "meta-tech-provider-front",
+      "qualifier": "mtpdevfrt",
+      "logicalIdSeed": "mtpfront",
+      "allowedServices": [
+        "cloudfront",
+        "s3",
+        "lambda",
+        "apigateway",
+        "logs"
+      ],
+      "requiredTagKeys": [
+        "owner",
+        "autor_infra",
+        "proyecto",
+        "cliente",
+        "cost_center",
+        "entorno",
+        "ecr"
+      ],
+      "users": {
+        "developers": [
+          "jose.escalada-pena@capgemini.com",
+          "carlos.jorge-chaves@capgemini.com"
+        ]
+      }
+    },
+    {
+      "id": "meta-tech-provider-back",
+      "qualifier": "mtpdevbck",
+      "logicalIdSeed": "mtpback",
+      "allowedServices": [
+        "lambda",
+        "s3",
+        "glue",
+        "athena",
+        "events",
+        "logs",
+        "apigateway",
+        "quicksight",
+        "bedrock",
+        "states"
+      ],
+      "requiredTagKeys": [
+        "owner",
+        "autor_infra",
+        "proyecto",
+        "cliente",
+        "cost_center",
+        "entorno"
+      ],
+      "users": {
+        "developers": [
+          "jose.escalada-pena@capgemini.com",
+          "carlos.jorge-chaves@capgemini.com"
+        ]
+      }
     }
   ]
 }

@@ -207,83 +207,61 @@ for (const project of (cfg.projects || [])) {
   ]);
 
   const projectDir = path.join(resultsDir, projectId);
-  const instructionsDir = path.join(projectDir, 'instructions');
+  const generalDir = path.join(projectDir, `${projectId}-general`);
 
   ensureDir(projectDir);
-  ensureDir(instructionsDir);
+  ensureDir(generalDir);
+
+  // Elimina artefactos obsoletos de versiones anteriores del generador.
+  const obsoleteProjectFile = path.join(projectDir, `${projectId}.md`);
+  if (fs.existsSync(obsoleteProjectFile)) fs.unlinkSync(obsoleteProjectFile);
+  const obsoleteInstructionsDir = path.join(projectDir, 'instructions');
+  if (fs.existsSync(obsoleteInstructionsDir)) {
+    fs.rmSync(obsoleteInstructionsDir, { recursive: true, force: true });
+  }
+  // Limpia artefactos de nivel de proyecto que ahora van en carpeta general.
+  const obsoleteGeneralFolder = path.join(projectDir, 'general');
+  if (fs.existsSync(obsoleteGeneralFolder)) fs.rmSync(obsoleteGeneralFolder, { recursive: true, force: true });
+  const obsoleteInstructionsFile = path.join(projectDir, 'instructions.md');
+  if (fs.existsSync(obsoleteInstructionsFile)) fs.unlinkSync(obsoleteInstructionsFile);
+  const obsoleteDeployFile = path.join(projectDir, 'deploy.sh');
+  if (fs.existsSync(obsoleteDeployFile)) fs.unlinkSync(obsoleteDeployFile);
 
   const projectRoleArn = getExpectedRoleArn(accountId, qualifier);
 
   /**
-   * Genera el fichero resumen del proyecto.
+   * Genera un único fichero de instrucciones para todos los usuarios del proyecto.
    */
-  const projectInfoFile = path.join(projectDir, `${projectId}.md`);
-  writeFile(projectInfoFile, [
-    '# Informacion de proyecto',
+  const projectInstructionsFile = path.join(generalDir, 'instructions.md');
+  writeFile(projectInstructionsFile, [
+    `# Instrucciones de acceso — ${projectId}`,
     '',
-    '<!-- Archivo generado por scripts/50_generate_results.sh -->',
-    '<!-- Uso: referencia operativa para administracion y usuarios del proyecto -->',
-    '',
-    `- Proyecto: ${projectId}`,
     `- Account ID: ${accountId}`,
-    `- AWS Profile admin: ${profile}`,
     `- Qualifier: ${qualifier}`,
-    `- Role documentado por el sistema: ${projectRoleArn}`,
+    `- Role de despliegue: ${projectRoleArn}`,
     '',
-    '## Servicios permitidos',
-    ...renderMarkdownList(allowedServices),
+    '## ⚠️ IMPORTANTE',
+    '**NO ejecutar bootstrap** — el administrador ya ha bootstrapped este proyecto.',
+    '',
+    '**Solo ejecutar `deploy.sh`** — es el único script que necesitas. Cualquier otro comando puede causar problemas.',
+    '',
+    '**Solo disponible en entorno DEV** — este proyecto está limitado a desarrollo. No hay stacks para producción.',
     '',
     '## Tags obligatorios',
     ...renderMarkdownList(requiredTags),
     '',
-    '## Usuarios developers',
-    ...renderMarkdownList(developers),
+    '## Servicios disponibles en este proyecto',
+    ...renderMarkdownList(allowedServices),
     '',
-    '## Usuarios viewers',
-    ...renderMarkdownList(viewers),
+    '## Cómo desplegar',
+    '1. Configura tu perfil AWS con las credenciales del archivo credentials-<tu-email>.json.',
+    '2. Verifica acceso: `aws sts get-caller-identity --profile <PERFIL>`',
+    '3. Copia deploy.sh a tu repo de infraestructura y sigue las instrucciones que contiene.',
     '',
-    '## Usuarios architects',
-    ...renderMarkdownList(architects),
-    '',
-    '## Todos los usuarios del proyecto',
-    ...renderMarkdownList(allUsers),
-    ''
-  ].join('\n'));
-
-  /**
-   * Genera el fichero de instrucciones generales del proyecto.
-   */
-  const projectInstructionsFile = path.join(instructionsDir, 'instructions.md');
-  writeFile(projectInstructionsFile, [
-    '# Instrucciones del proyecto',
-    '',
-    '<!-- Archivo generado por scripts/50_generate_results.sh -->',
-    '<!-- Uso: entregar a usuarios de este proyecto como guia operativa -->',
-    '',
-    `Proyecto: ${projectId}`,
-    `Account ID: ${accountId}`,
-    `Qualifier: ${qualifier}`,
-    '',
-    '## Reglas operativas',
-    '- No usar consola para cambios de infraestructura.',
-    '- Usar siempre el qualifier del proyecto en el sintetizador CDK.',
-    '- Utilizar el modelo de acceso definido para el proyecto y sus roles.',
-    '- Cumplir todos los tags obligatorios del proyecto.',
-    '',
-    '## Configuracion local recomendada',
-    '1. Configurar credenciales base en ~/.aws/credentials si aplica.',
-    `2. Configurar el acceso al role documentado por el sistema: ${projectRoleArn}.`,
-    '3. Verificar la sesion con aws sts get-caller-identity.',
-    '',
-    '## Comandos base',
-    'export AWS_PROFILE=<perfil_proyecto>',
-    'npm install',
-    'npx cdk synth',
-    'npx cdk diff',
-    'npx cdk deploy',
-    '',
-    '## Tags obligatorios del proyecto',
-    ...renderMarkdownList(requiredTags),
+    '## Reglas',
+    '- No realizar cambios de infraestructura desde la consola AWS.',
+    '- Incluir todos los tags obligatorios en cada recurso creado.',
+    '- Todo despliegue debe hacerse mediante CDK usando el qualifier del proyecto.',
     ''
   ].join('\n'));
 
@@ -291,6 +269,9 @@ for (const project of (cfg.projects || [])) {
    * Genera artefactos por usuario del proyecto.
    */
   for (const user of allUsers) {
+    const userDir = path.join(projectDir, `${projectId}-${user}`);
+    ensureDir(userDir);
+
     const userRoles = getUserRolesForProject(user, developers, viewers, architects);
     const primaryRole = getPrimaryRole(userRoles);
     const roleLabel = getRoleLabel(userRoles);
@@ -299,9 +280,8 @@ for (const project of (cfg.projects || [])) {
     const safe = safeOutKeyName(user);
 
     const sourceKeyFile = path.join(outKeysDir, `${safe}.json`);
-    const jsonTarget = path.join(projectDir, `credentials-${user}.json`);
-    const mdTarget = path.join(projectDir, `credentials-${user}.md`);
-    const userInstructions = path.join(instructionsDir, `instructions-${user}.md`);
+    const jsonTarget = path.join(userDir, `credentials-${user}.json`);
+    const mdTarget = path.join(userDir, `credentials-${user}.md`);
 
     /**
      * Genera el JSON de credenciales.
@@ -313,7 +293,6 @@ for (const project of (cfg.projects || [])) {
       writeFile(jsonTarget, raw);
     } else {
       writeFile(jsonTarget, JSON.stringify({
-        _comment: 'Archivo generado como placeholder. No hay credencial creada en out/access-keys para este usuario.',
         user,
         projectId,
         role: primaryRole,
@@ -327,10 +306,7 @@ for (const project of (cfg.projects || [])) {
      * Genera el Markdown de contexto de credenciales por usuario.
      */
     writeFile(mdTarget, [
-      `# Credenciales de ${user}`,
-      '',
-      '<!-- Archivo generado por scripts/50_generate_results.sh -->',
-      '<!-- Uso: entregar al usuario junto con instrucciones de proyecto -->',
+      `# Credenciales — ${user}`,
       '',
       `- Proyecto: ${projectId}`,
       `- Rol principal: ${primaryRole}`,
@@ -341,42 +317,136 @@ for (const project of (cfg.projects || [])) {
       '',
       '## Nota de seguridad',
       '- El JSON puede contener secreto. No subir a git ni enviar por canales no seguros.',
-      '- Si necesitas rotar credenciales, pedir al administrador ejecutar scripts/40_create_access_keys.sh --rotate.',
+      '- Si necesitas rotar credenciales, contacta con el administrador del proyecto.',    
       ''
     ].join('\n'));
 
-    /**
-     * Genera las instrucciones personalizadas por usuario.
-     */
-    writeFile(userInstructions, [
-      `# Instrucciones para ${user}`,
-      '',
-      '<!-- Archivo generado por scripts/50_generate_results.sh -->',
-      '<!-- Uso: guia personalizada por usuario del proyecto -->',
-      '',
-      `- Proyecto: ${projectId}`,
-      `- Rol principal: ${primaryRole}`,
-      `- Roles en el proyecto: ${roleLabel}`,
-      `- Account ID: ${accountId}`,
-      `- Qualifier: ${qualifier}`,
-      `- Role documentado por el sistema: ${roleArn}`,
-      '',
-      '## Que debes saber',
-      '- Debes operar conforme a los permisos asignados a tus roles dentro de este proyecto.',
-      '- No debes realizar cambios de infraestructura fuera del modelo definido por el proyecto.',
-      '- Debes incluir los tags obligatorios del proyecto en tus despliegues o recursos aplicables.',
-      '',
-      '## Pasos minimos',
-      '1. Configura tus credenciales base si aplica.',
-      '2. Configura tu perfil AWS o método de acceso correspondiente para este proyecto.',
-      '3. Verifica identidad con aws sts get-caller-identity.',
-      '4. Ejecuta los comandos del proyecto con el perfil adecuado.',
-      '',
-      '## Tags obligatorios',
-      ...renderMarkdownList(requiredTags),
-      ''
-    ].join('\n'));
+
   }
+
+  /**
+   * Genera un deploy.sh de referencia por proyecto.
+   *
+   * Este fichero es un punto de partida para que el desarrollador entienda
+   * cómo desplegar su proyecto respetando el modelo de governance IAM:
+   *   - Sus credenciales base solo permiten sts:AssumeRole (no tienen acceso
+   *     directo a servicios AWS).
+   *   - CDK asume automáticamente los roles bootstrap del qualifier usando
+   *     esas credenciales base: no hay que asumir el role manualmente para
+   *     el cdk deploy.
+   *   - El stack CDK debe gestionar internamente operaciones adicionales como
+   *     sync a S3 (via BucketDeployment) o invalidación de CloudFront.
+   *
+   * El desarrollador debe:
+   *   1. Copiar este fichero a scripts/deploy.sh de su repo de infraestructura.
+   *   2. Rellenar BASE_PROFILE con su perfil AWS.
+   *   3. Ajustar REGION si no es eu-west-1.
+   *   4. Sustituir el bloque TODO de build por los pasos reales de su proyecto.
+   *   5. Asegurarse de que bin/app.ts usa DefaultStackSynthesizer con
+   *      qualifier igual a QUALIFIER.
+   */
+  const deployScriptFile = path.join(generalDir, 'deploy.sh');
+  writeFile(deployScriptFile, [
+    '#!/usr/bin/env bash',
+    `# deploy.sh — ${projectId}`,
+    '#',
+    '# iam-governance — deploy reference script',    
+    '#',
+    '# ─── Para el desarrollador ───────────────────────────────────────────────────',
+    '#',
+    '# ANTES DE USAR ESTE SCRIPT:',
+    '#   1. Copia este fichero a scripts/deploy.sh de tu repo de infraestructura.',
+    '#   2. Rellena BASE_PROFILE con el nombre de tu perfil AWS configurado en ~/.aws/config.',    
+    '#   3. Ajusta REGION si tu proyecto no despliega en eu-west-1.',
+    '#   4. Sustituye el bloque "TODO: build" por los comandos de build de tu proyecto.',
+    '#      Ejemplos:',
+    '#        Angular  → cd frontend/app && npm install && npx ng build --configuration=production && cd ../..',
+    '#        Node/tsc → npm install && npm run build',
+    '#        Python   → pip install -r requirements.txt',
+    '#   5. Verifica que bin/app.ts (o equivalente) instancia DefaultStackSynthesizer',
+    `#      con qualifier: '${qualifier}'.`,
+    '#',
+    '# CÓMO FUNCIONA EL ACCESO AWS:',
+    '#   Tus credenciales base (BASE_PROFILE) solo tienen permiso sts:AssumeRole.',
+    '#   No puedes llamar directamente a Lambda, S3, etc. con ellas.',
+    '#   CDK detecta el qualifier del synthesizer y asume automáticamente los roles',
+    `#   bootstrap del proyecto (cdk-${qualifier}-deploy-role, cdk-${qualifier}-file-publishing-role).`,
+    '#   Todo el acceso a servicios AWS ocurre a través de esos roles asumidos.',
+    '#',
+    '# REQUISITOS EN TU MÁQUINA:',
+    '#   - node, npm, npx  →  node --version',
+    '#   - aws CLI         →  aws --version',
+    '#   - jq              →  jq --version',
+    '#   - Perfil AWS configurado en ~/.aws/credentials o ~/.aws/config',
+    '#',
+    '# USO:',
+    `#   ./scripts/deploy.sh          → despliega en dev (por defecto)`,
+    `#   ./scripts/deploy.sh dev      → despliega en dev`,
+    `#   ./scripts/deploy.sh pre      → despliega en pre`,
+    `#   ./scripts/deploy.sh pro      → despliega en pro`,
+    '#',
+    '# ─────────────────────────────────────────────────────────────────────────────',
+    '',
+    'set -euo pipefail',
+    '',
+    '# export es obligatorio: la variable ENV debe llegar al proceso hijo (node/CDK).',
+    '# Sin export, process.env.ENV es undefined y CDK siempre despliega el entorno por defecto.',
+    'export ENV="${1:-dev}"',
+    '',
+    `readonly PROJECT_ID="${projectId}"`,
+    `readonly QUALIFIER="${qualifier}"`,
+    `readonly TOOLKIT_STACK_NAME="${projectId}-cdk-toolkit"`,
+    '',
+    '# Nombre del perfil AWS configurado en ~/.aws/config o ~/.aws/credentials.',    
+    'readonly BASE_PROFILE="<PERFIL_AWS>"',
+    '',
+    '# Ajustar si el proyecto despliega en otra región.',
+    'readonly REGION="eu-west-1"',
+    '',
+    'echo "========================================"',
+    `echo " Deploy : ${projectId}"`,
+    'echo " Env    : $ENV"',
+    'echo " Profile: $BASE_PROFILE"',
+    'echo " Region : $REGION"',
+    'echo "========================================"',
+    '',
+    '# Validación rápida del perfil antes de continuar.',
+    'if ! aws sts get-caller-identity --profile "$BASE_PROFILE" > /dev/null 2>&1; then',
+    '  echo "[ERROR] No se puede autenticar con el perfil $BASE_PROFILE"',
+    '  echo "        Comprueba ~/.aws/credentials o ~/.aws/config"',
+    '  exit 1',
+    'fi',
+    'echo "[OK] Credenciales base válidas"',
+    '',
+    '# ── TODO: build del proyecto ─────────────────────────────────────────────────',
+    '# Sustituye este bloque por los pasos de build reales de tu proyecto.',
+    '# Ejemplo Angular:',
+    '#   cd frontend/app',
+    '#   npm install',
+    '#   npx ng build --configuration=production',
+    '#   cd ../..',
+    'echo "[INFO] Build... (añadir pasos reales aquí)"',
+    '',
+    '# ── CDK Deploy ───────────────────────────────────────────────────────────────',
+    '# npm run build compila TypeScript a JavaScript antes del deploy.',
+    'echo "[INFO] Build CDK TypeScript..."',
+    'npm run build',
+    '',
+    '# cdk deploy usa las credenciales base del perfil y asume automáticamente',
+    `# cdk-${qualifier}-deploy-role para orquestar el despliegue en CloudFormation.`,
+    '# El stack debe tener el nombre "$PROJECT_ID-$ENV" (ej. meta-tech-provider-back-dev).',
+    `echo "[INFO] CDK deploy (\${PROJECT_ID}-\${ENV})..."`,
+    'npx cdk deploy "${PROJECT_ID}-${ENV}" \\',
+    '  --profile "$BASE_PROFILE" \\',
+    '  --region  "$REGION" \\',
+    '  --toolkit-stack-name "$TOOLKIT_STACK_NAME" \\',
+    '  --require-approval never',
+    '',
+    'echo "========================================"',
+    'echo " Deploy completado: ${PROJECT_ID} (${ENV})"',
+    'echo "========================================"',
+    ''
+  ].join('\n'));
 }
 NODE
 

@@ -1,0 +1,88 @@
+SKIP bootstrap qualifier=dgtdev (ya existe /cdk-bootstrap/dgtdev/version)
+SKIP bootstrap qualifier=dgtdevspa (ya existe /cdk-bootstrap/dgtdevspa/version)
+BOOTSTRAP project=meta-tech-provider-front qualifier=mtpdevfrt env=dev region=eu-west-1 policy=cap7036-dev-meta-tech-provider-front-cfn-exec toolkit=meta-tech-provider-front-cdk-toolkit
+ ⏳  Bootstrapping environment aws://887977137036/eu-west-1...
+Trusted accounts for deployment: (none)
+Trusted accounts for lookup: (none)
+Execution policies: arn:aws:iam::887977137036:policy/cap7036-dev-meta-tech-provider-front-cfn-exec
+meta-tech-provider-front-cdk-toolkit: creating CloudFormation changeset...
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:37 AM | REVIEW_IN_PROGRESS      | AWS::CloudFormation::Stack | meta-tech-provider-front-cdk-toolkit User Initiated
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:42 AM | CREATE_IN_PROGRESS      | AWS::CloudFormation::Stack | meta-tech-provider-front-cdk-toolkit User Initiated
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:45 AM | CREATE_IN_PROGRESS      | AWS::S3::Bucket            | StagingBucket 
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:45 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | CloudFormationExecutionRole 
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:45 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | LookupRole 
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:45 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | FilePublishingRole 
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:45 AM | CREATE_IN_PROGRESS      | AWS::SSM::Parameter        | CdkBootstrapVersion 
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:45 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | ImagePublishingRole 
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:45 AM | CREATE_IN_PROGRESS      | AWS::ECR::Repository       | ContainerAssetsRepository 
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:45 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | CloudFormationExecutionRole Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:45 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | FilePublishingRole Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:45 AM | CREATE_IN_PROGRESS      | AWS::SSM::Parameter        | CdkBootstrapVersion Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:46 AM | CREATE_IN_PROGRESS      | AWS::ECR::Repository       | ContainerAssetsRepository Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:46 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | LookupRole Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:46 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | ImagePublishingRole Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  0/12 | 9:18:46 AM | CREATE_IN_PROGRESS      | AWS::S3::Bucket            | StagingBucket Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  1/12 | 9:18:46 AM | CREATE_COMPLETE         | AWS::SSM::Parameter        | CdkBootstrapVersion 
+meta-tech-provider-front-cdk-toolkit |  2/12 | 9:18:46 AM | CREATE_COMPLETE         | AWS::ECR::Repository       | ContainerAssetsRepository 
+meta-tech-provider-front-cdk-toolkit |  3/12 | 9:19:00 AM | CREATE_COMPLETE         | AWS::S3::Bucket            | StagingBucket 
+meta-tech-provider-front-cdk-toolkit |  3/12 | 9:19:01 AM | CREATE_IN_PROGRESS      | AWS::S3::BucketPolicy      | StagingBucketPolicy 
+meta-tech-provider-front-cdk-toolkit |  3/12 | 9:19:02 AM | CREATE_IN_PROGRESS      | AWS::S3::BucketPolicy      | StagingBucketPolicy Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  4/12 | 9:19:02 AM | CREATE_COMPLETE         | AWS::S3::BucketPolicy      | StagingBucketPolicy 
+meta-tech-provider-front-cdk-toolkit |  5/12 | 9:19:03 AM | CREATE_COMPLETE         | AWS::IAM::Role             | FilePublishingRole 
+meta-tech-provider-front-cdk-toolkit |  6/12 | 9:19:03 AM | CREATE_COMPLETE         | AWS::IAM::Role             | ImagePublishingRole 
+meta-tech-provider-front-cdk-toolkit |  7/12 | 9:19:03 AM | CREATE_COMPLETE         | AWS::IAM::Role             | CloudFormationExecutionRole 
+meta-tech-provider-front-cdk-toolkit |  7/12 | 9:19:04 AM | CREATE_IN_PROGRESS      | AWS::IAM::Policy           | FilePublishingRoleDefaultPolicy 
+meta-tech-provider-front-cdk-toolkit |  8/12 | 9:19:04 AM | CREATE_COMPLETE         | AWS::IAM::Role             | LookupRole 
+meta-tech-provider-front-cdk-toolkit |  8/12 | 9:19:04 AM | CREATE_IN_PROGRESS      | AWS::IAM::Policy           | ImagePublishingRoleDefaultPolicy 
+meta-tech-provider-front-cdk-toolkit |  8/12 | 9:19:04 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | DeploymentActionRole 
+meta-tech-provider-front-cdk-toolkit |  8/12 | 9:19:05 AM | CREATE_IN_PROGRESS      | AWS::IAM::Policy           | FilePublishingRoleDefaultPolicy Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  8/12 | 9:19:05 AM | CREATE_IN_PROGRESS      | AWS::IAM::Policy           | ImagePublishingRoleDefaultPolicy Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  8/12 | 9:19:05 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | DeploymentActionRole Resource creation Initiated
+meta-tech-provider-front-cdk-toolkit |  9/12 | 9:19:20 AM | CREATE_COMPLETE         | AWS::IAM::Policy           | FilePublishingRoleDefaultPolicy 
+meta-tech-provider-front-cdk-toolkit | 10/12 | 9:19:21 AM | CREATE_COMPLETE         | AWS::IAM::Policy           | ImagePublishingRoleDefaultPolicy 
+meta-tech-provider-front-cdk-toolkit | 11/12 | 9:19:24 AM | CREATE_COMPLETE         | AWS::IAM::Role             | DeploymentActionRole 
+meta-tech-provider-front-cdk-toolkit | 12/12 | 9:19:25 AM | CREATE_COMPLETE         | AWS::CloudFormation::Stack | meta-tech-provider-front-cdk-toolkit 
+ ✅  Environment aws://887977137036/eu-west-1 bootstrapped.
+BOOTSTRAP project=meta-tech-provider-back qualifier=mtpdevbck env=dev region=eu-west-1 policy=cap7036-dev-meta-tech-provider-back-cfn-exec toolkit=meta-tech-provider-back-cdk-toolkit
+ ⏳  Bootstrapping environment aws://887977137036/eu-west-1...
+Trusted accounts for deployment: (none)
+Trusted accounts for lookup: (none)
+Execution policies: arn:aws:iam::887977137036:policy/cap7036-dev-meta-tech-provider-back-cfn-exec
+meta-tech-provider-back-cdk-toolkit: creating CloudFormation changeset...
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:40 AM | REVIEW_IN_PROGRESS      | AWS::CloudFormation::Stack | meta-tech-provider-back-cdk-toolkit User Initiated
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:46 AM | CREATE_IN_PROGRESS      | AWS::CloudFormation::Stack | meta-tech-provider-back-cdk-toolkit User Initiated
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:48 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | CloudFormationExecutionRole 
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:48 AM | CREATE_IN_PROGRESS      | AWS::SSM::Parameter        | CdkBootstrapVersion 
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:48 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | ImagePublishingRole 
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:48 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | LookupRole 
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:48 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | FilePublishingRole 
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:48 AM | CREATE_IN_PROGRESS      | AWS::S3::Bucket            | StagingBucket 
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:48 AM | CREATE_IN_PROGRESS      | AWS::ECR::Repository       | ContainerAssetsRepository 
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:49 AM | CREATE_IN_PROGRESS      | AWS::SSM::Parameter        | CdkBootstrapVersion Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:49 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | ImagePublishingRole Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:49 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | LookupRole Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:49 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | FilePublishingRole Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:49 AM | CREATE_IN_PROGRESS      | AWS::ECR::Repository       | ContainerAssetsRepository Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:49 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | CloudFormationExecutionRole Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  0/12 | 9:19:49 AM | CREATE_IN_PROGRESS      | AWS::S3::Bucket            | StagingBucket Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  1/12 | 9:19:49 AM | CREATE_COMPLETE         | AWS::SSM::Parameter        | CdkBootstrapVersion 
+meta-tech-provider-back-cdk-toolkit |  2/12 | 9:19:50 AM | CREATE_COMPLETE         | AWS::ECR::Repository       | ContainerAssetsRepository 
+meta-tech-provider-back-cdk-toolkit |  3/12 | 9:20:03 AM | CREATE_COMPLETE         | AWS::S3::Bucket            | StagingBucket 
+meta-tech-provider-back-cdk-toolkit |  3/12 | 9:20:04 AM | CREATE_IN_PROGRESS      | AWS::S3::BucketPolicy      | StagingBucketPolicy 
+meta-tech-provider-back-cdk-toolkit |  3/12 | 9:20:05 AM | CREATE_IN_PROGRESS      | AWS::S3::BucketPolicy      | StagingBucketPolicy Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  4/12 | 9:20:06 AM | CREATE_COMPLETE         | AWS::S3::BucketPolicy      | StagingBucketPolicy 
+meta-tech-provider-back-cdk-toolkit |  5/12 | 9:20:07 AM | CREATE_COMPLETE         | AWS::IAM::Role             | ImagePublishingRole 
+meta-tech-provider-back-cdk-toolkit |  6/12 | 9:20:07 AM | CREATE_COMPLETE         | AWS::IAM::Role             | FilePublishingRole 
+meta-tech-provider-back-cdk-toolkit |  7/12 | 9:20:07 AM | CREATE_COMPLETE         | AWS::IAM::Role             | LookupRole 
+meta-tech-provider-back-cdk-toolkit |  7/12 | 9:20:07 AM | CREATE_IN_PROGRESS      | AWS::IAM::Policy           | FilePublishingRoleDefaultPolicy 
+meta-tech-provider-back-cdk-toolkit |  8/12 | 9:20:07 AM | CREATE_COMPLETE         | AWS::IAM::Role             | CloudFormationExecutionRole 
+meta-tech-provider-back-cdk-toolkit |  8/12 | 9:20:07 AM | CREATE_IN_PROGRESS      | AWS::IAM::Policy           | ImagePublishingRoleDefaultPolicy 
+meta-tech-provider-back-cdk-toolkit |  8/12 | 9:20:08 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | DeploymentActionRole 
+meta-tech-provider-back-cdk-toolkit |  8/12 | 9:20:08 AM | CREATE_IN_PROGRESS      | AWS::IAM::Policy           | ImagePublishingRoleDefaultPolicy Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  8/12 | 9:20:08 AM | CREATE_IN_PROGRESS      | AWS::IAM::Policy           | FilePublishingRoleDefaultPolicy Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  8/12 | 9:20:09 AM | CREATE_IN_PROGRESS      | AWS::IAM::Role             | DeploymentActionRole Resource creation Initiated
+meta-tech-provider-back-cdk-toolkit |  9/12 | 9:20:24 AM | CREATE_COMPLETE         | AWS::IAM::Policy           | ImagePublishingRoleDefaultPolicy 
+meta-tech-provider-back-cdk-toolkit | 10/12 | 9:20:24 AM | CREATE_COMPLETE         | AWS::IAM::Policy           | FilePublishingRoleDefaultPolicy 
+meta-tech-provider-back-cdk-toolkit | 11/12 | 9:20:28 AM | CREATE_COMPLETE         | AWS::IAM::Role             | DeploymentActionRole 
+meta-tech-provider-back-cdk-toolkit | 12/12 | 9:20:29 AM | CREATE_COMPLETE         | AWS::CloudFormation::Stack | meta-tech-provider-back-cdk-toolkit 
+ ✅  Environment aws://887977137036/eu-west-1 bootstrapped.
