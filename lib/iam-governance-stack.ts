@@ -468,9 +468,7 @@ export class IamGovernanceStack extends Stack {
               'apigateway:UntagResource'
             ]),
             resources: [
-              `arn:aws:apigateway:${this.region}::/restapis`,
-              `arn:aws:apigateway:${this.region}::/restapis/*`,
-              `arn:aws:apigateway:${this.region}::/tags/*`
+              `arn:aws:apigateway:${this.region}::*`
             ]
           })
         );

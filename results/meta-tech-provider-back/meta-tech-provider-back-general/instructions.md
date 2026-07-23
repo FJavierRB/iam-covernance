@@ -27,6 +27,7 @@
 - events
 - logs
 - apigateway
+- dynamodb
 - quicksight
 - bedrock
 - states
